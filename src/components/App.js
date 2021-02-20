@@ -33,7 +33,7 @@ class App extends React.Component {
       this.setState({
         token: _token
       });
-      this.getAlbums(_token, "3Vl9fyKMIdLMswk8ai3mm9");
+      this.getAlbums(_token, "6eUKZXaKkcviH0Ku9w2n3V");
       //this.changeArtist();
 
     }
@@ -49,18 +49,9 @@ class App extends React.Component {
 
   tick() {
     if (this.state.token) {
-      this.changeArtist()
       this.getAlbums(this.state.token);
     }
   }
-
-  changeArtist = () => {
-    let artistId = window.location.search.split("=")[1]
-    if (artistId !== this.state.artist_ID && artistId !== "") {
-      this.setState({artist_Id : artistId})
-    }
-  }
-
 
   getTracksOfAlbum(token, albumId) {
     $.ajax({
@@ -98,7 +89,6 @@ class App extends React.Component {
       }
     })
   }
-
 
 
   getAlbums(token, artistId) {
