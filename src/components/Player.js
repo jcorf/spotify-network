@@ -12,6 +12,7 @@ const Player = props => {
     width: (props.progress_ms * 100 / props.item.duration_ms) + '%'
   };
 
+
   return (
       <div className="App">
         <div className="main-wrapper">

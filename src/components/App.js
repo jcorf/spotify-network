@@ -1,13 +1,9 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import * as $ from "jquery";
-import { authEndpoint, clientId, redirectUri, scopes } from "../config";
+import {authEndpoint, clientId, redirectUri, scopes} from "../config";
 import hash from "../hash";
-import Player from "./Player";
-import logo from "../logo.svg";
 import "../css/App.css";
-import Artist from "./Artist";
-
-
+import AlbumList from "./AlbumList";
 
 class App extends Component {
   constructor() {
@@ -15,24 +11,18 @@ class App extends Component {
 
     this.state = {
       token: null,
-      item: {
-        album: {
-          images: [{ url: "" }]
-        },
-        name: "",
-        artists: [{ name: "" }, {popularity: 0}, {id: 0}],
-        duration_ms: 0
-      },
+      artist_ID: "",
+      albums: [{artists: [{name: ""}]}, {name: ""}, {id: ""}],
+      tracks: [{artists: [{name: ""}, {id: ""}]}, {name: ""}],
+      all_songs: [],
+      all_artists: [],
+      all_ids: [],
       no_data: false,
-
     };
 
-   //  this.getCurrentlyPlaying = this.getCurrentlyPlaying.bind(this);
-    this.getArtists = this.getArtists.bind(this);
+    this.getAlbums = this.getAlbums.bind(this);
     this.tick = this.tick.bind(this);
   }
-
-
 
   componentDidMount() {
     // Set token
@@ -43,7 +33,8 @@ class App extends Component {
       this.setState({
         token: _token
       });
-      this.getArtists(_token);
+      this.getAlbums(_token, "3Vl9fyKMIdLMswk8ai3mm9");
+
     }
 
     // set interval for polling every 5 seconds
@@ -56,38 +47,64 @@ class App extends Component {
   }
 
   tick() {
-    if(this.state.token) {
-      this.getArtists(this.state.token)
+    if (this.state.token) {
+      this.getAlbums(this.state.token)
+
     }
   }
 
-  // getPlaylists(token) {
-  //   $.ajax({
-  //     url: "https://api.spotify.com/v1/me/playlists",
-  //     type: "GET",
-  //     beforeSend: xhr => {
-  //       xhr.setRequestHeader("Authorization", "Bearer " + token);
-  //     },
-  //
-  //     success: data => {
-  //
-  //     }
-  //
-  //
-  //   })
-  // }
-
-  getArtists(token) {
-    // Make a call using the token
+  getTracksOfAlbum(token, albumId) {
     $.ajax({
-      url: "https://api.spotify.com/v1/me/player",
+      url: "https://api.spotify.com/v1/albums/" + albumId + "/tracks",
       type: "GET",
       beforeSend: xhr => {
         xhr.setRequestHeader("Authorization", "Bearer " + token);
       },
       success: data => {
-        // Checks if the data is not empty
-        if(!data) {
+
+        if (!data) {
+          this.setState({
+            no_data: true,
+          });
+          return;
+        }
+        this.setState({tracks: data.items, no_data: false});
+        this.state.tracks.map((track) =>
+            this.setState({all_songs: this.state.all_songs.concat(track)})
+        )
+
+        this.state.tracks.map((track) => {
+              track.artists.map((artist) => {
+                    if (!this.state.all_ids.includes(artist.id)) {
+                      this.setState(
+                          {all_artists: this.state.all_artists.concat(artist)});
+                      this.setState({all_ids: this.state.all_ids.concat(artist.id)});
+                    }
+
+                  }
+              )
+            }
+        )
+
+      }
+    })
+  }
+
+  newArtist(artistId) {
+    this.getAlbums(this.state.token, artistId);
+    this.componentDidMount()
+  }
+
+  getAlbums(token, artistId) {
+    $.ajax({
+      url: "https://api.spotify.com/v1/artists/" + artistId + "/albums/?"
+          + "offset=0&limit=20&include_groups=album,single,appears_on&market=ES",
+      type: "GET",
+      beforeSend: xhr => {
+        xhr.setRequestHeader("Authorization", "Bearer " + token);
+      },
+      success: data => {
+        if (!data) {
           this.setState({
             no_data: true,
           });
@@ -95,40 +112,42 @@ class App extends Component {
         }
 
         this.setState({
-          item: data.item,
-          no_data: false /* We need to "reset" the boolean, in case the
-                            user does not give F5 and has opened his Spotify. */
-        });
+          albums: data.items,
+          artist_Id: artistId,
+          all_ids: [artistId],
+          no_data: false
+        })
+
+        this.state.albums.map((album) =>
+            this.getTracksOfAlbum(token, album.id)
+        )
       }
+
     });
   }
-
-
 
   render() {
     return (
         <div className="App">
           <header className="App-header">
-            <img src={logo} className="App-logo" alt="logo" />
+            {/*<img src={logo} className="App-logo" alt="logo"/>*/}
             {!this.state.token && (
                 <a
                     className="btn btn--loginApp-link"
                     href={`${authEndpoint}?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scopes.join(
                         "%20"
-                    )}&response_type=token&show_dialog=true`}
-                >
+                    )}&response_type=token&show_dialog=true`}>
                   Login to Spotify
                 </a>
             )}
 
             {this.state.token && !this.state.no_data && (
-                <Artist
-                    item={this.state.item}
-                  />
-
+                <AlbumList
+                    albums={this.state.albums}
+                    songs={this.state.all_songs}
+                    artists={this.state.all_artists}
+                />
             )}
-
-
           </header>
         </div>
     );
