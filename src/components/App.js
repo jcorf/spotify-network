@@ -5,7 +5,7 @@ import hash from "../hash";
 import "../css/App.css";
 import AlbumList from "./AlbumList";
 
-class App extends Component {
+class App extends React.Component {
   constructor() {
     super();
 
@@ -34,6 +34,7 @@ class App extends Component {
         token: _token
       });
       this.getAlbums(_token, "3Vl9fyKMIdLMswk8ai3mm9");
+      //this.changeArtist();
 
     }
 
@@ -48,10 +49,18 @@ class App extends Component {
 
   tick() {
     if (this.state.token) {
-      this.getAlbums(this.state.token)
-
+      this.changeArtist()
+      this.getAlbums(this.state.token);
     }
   }
+
+  changeArtist = () => {
+    let artistId = window.location.search.split("=")[1]
+    if (artistId !== this.state.artist_ID && artistId !== "") {
+      this.setState({artist_Id : artistId})
+    }
+  }
+
 
   getTracksOfAlbum(token, albumId) {
     $.ajax({
@@ -90,10 +99,7 @@ class App extends Component {
     })
   }
 
-  newArtist(artistId) {
-    this.getAlbums(this.state.token, artistId);
-    this.componentDidMount()
-  }
+
 
   getAlbums(token, artistId) {
     $.ajax({
@@ -126,6 +132,8 @@ class App extends Component {
     });
   }
 
+
+
   render() {
     return (
         <div className="App">
@@ -153,5 +161,7 @@ class App extends Component {
     );
   }
 }
+
+
 
 export default App;

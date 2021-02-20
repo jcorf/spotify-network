@@ -29,12 +29,13 @@ const AlbumList = props => {
                     {/*<a href={this.newArtist(artist.id)|> </a>*/}
                     {/*<td>{artist.name}</td>*/}
 
-                    /* NEW BUTTON? */
-                    {/*<button*/}
-                    {/*    className="btn btn-success float-right"*/}
-                    {/*    onClick={() => new App().newArtist(artist.id)}>*/}
-                    {/*  {artist.name}*/}
-                    {/*</button>*/}
+                    <a className="btn btn-primary float-right"
+                       href={`/?aId=${artist.id}`}>
+                      {artist.name}
+                    </a>
+
+                    <td>{artist.name}</td>
+
 
 
                   </tr>
