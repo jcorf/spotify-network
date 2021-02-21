@@ -122,7 +122,7 @@ class App extends React.Component {
     this.getAlbums(this.state.token, artistId)
   }
 
-  getTracksOfAlbum(token, albumId, sharedUrl, albumName) {
+  getTracksOfAlbum(token, albumId, sharedUrl) {
     $.ajax({
       url: "https://api.spotify.com/v1/albums/" + albumId + "/tracks",
       type: "GET",
@@ -147,6 +147,7 @@ class App extends React.Component {
                     if (!this.state.all_ids.includes(artist.id)) {
                       const value = [artist.id, sharedUrl, albumName, track.name, track.external_urls.spotify]
                       this.setState({shared_images : this.state.shared_images.concat(value)})
+
                       this.setState(
                           {all_artists: this.state.all_artists.concat(artist)})
                       this.setState({all_ids: this.state.all_ids.concat(artist.id)});
@@ -205,9 +206,17 @@ class App extends React.Component {
 
   // checkEmpty() {
   //   if (this.state.all_artists.length == 0) {
-  //
+  //     <h3> This artist hasn't collaborated with anyone :( </h3>
   //   }
-  //}
+  // }
+  //
+  // checkFirstArtist() {
+  //   if (this.state.connections.length == 0) {
+  //     <h1 className={"heading"}>Your Recently Played Artist: {this.state.albums[0].artists[0].name}</h1>
+  //   } else {
+  //     <h1 className={"heading"}>Artist: {this.state.albums[0].artists[0].name}</h1>
+  //   }
+  // }
 
 
   render() {
@@ -224,17 +233,23 @@ class App extends React.Component {
                       )}&response_type=token&show_dialog=true`}
                   ><button className="button">Login to Spotify</button>{}
                   </a>
+                  <h6 className={"made"}> See the network of artists from a recently played Artist by you! <br></br> Look for new music or Challenge yourself to find another artist in minimal connections. </h6>
                   <h6 className={"made"}> Made at HackBeanpot 2021 using Spotify API</h6>
-                </div>
 
+
+
+                </div>
             )}
 
             {this.state.token && !this.state.no_data && (
+
                 <div>
                   <div>
                     <div>
-                    <h1 className={"heading"}>Your Recently Played Artist: {this.state.albums[0].artists[0].name}</h1>
+                    <h1 className={"heading"}>Artist: {this.state.albums[0].artists[0].name}</h1>
                       <h3>{this.state.count} connections away from {this.state.starting_artist}</h3>
+
+
                       <h4 className={"connection"}>  {
                         this.state.connections.map((name) =>
                             name + " > "
@@ -263,8 +278,7 @@ class App extends React.Component {
 
                               <p>
                                 <left>
-                                  <b>Title:</b> {this.state.shared_images[this.state.shared_images.indexOf(artist.id) + 3]} <br></br>
-                                  <b>Album:</b> {this.state.shared_images[this.state.shared_images.indexOf(artist.id) + 2]}
+                                  <i> {this.state.shared_images[this.state.shared_images.indexOf(artist.id) + 2]} </i>
                                 </left>
                               </p>
 
