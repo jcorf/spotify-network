@@ -24,6 +24,19 @@
   color: white;
 }
 
+.homepage {
+  background-color: #282c34;
+  background-image: url("/src/background.jpg");
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+  width: 100%;
+}
+
 .App-link {
   color: #61dafb;
 }
@@ -36,5 +49,97 @@
     transform: rotate(360deg);
   }
 }
+
+.button {
+  align-content: center;
+  padding: 15px 25px;
+  font-size: 20px;
+  text-align: center;
+  cursor: pointer;
+  outline: none;
+  color: #fff;
+  background-color: #396A5F;
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 9px #222;
+}
+
+.button:hover {background-color: #305A4D}
+
+.button:active {
+  background-color: #305A4D;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
+
+.button1 {
+  align-content: center;
+  padding: 15px 25px;
+  font-size: 20px;
+  text-align: center;
+  cursor: pointer;
+  outline: none;
+  color: #fff;
+  background-color: #396A5F;
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 9px #222;
+}
+
+.buttonOne:hover {background-color: #305A4D}
+
+.buttonOne:active {
+  background-color: #305A4D;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
+
+.connection {
+  margin-bottom: 25px;
+}
+
+.header {
+  color: #282c34;
+  font-size: 2em;
+  padding-bottom:25px;
+
+}
+
+.made {
+  color: #2D4645;
+  font-size: 15px;
+  padding-top: 50px;
+  padding-bottom:25px;
+}
+
+button:hover {
+  animation: shake 0.5s;
+  animation-iteration-count: infinite;
+}
+
+@keyframes shake {
+  0% { transform: translate(1px, 1px) rotate(0deg); }
+  12% { transform: translate(-1px, -2px) rotate(-1deg); }
+  25% { transform: translate(-3px, 0px) rotate(1deg); }
+  38% { transform: translate(3px, 2px) rotate(0deg); }
+  50% { transform: translate(1px, -1px) rotate(1deg); }
+  63% { transform: translate(-1px, 2px) rotate(-1deg); }
+  75% { transform: translate(-3px, 1px) rotate(0deg); }
+  88% { transform: translate(3px, 1px) rotate(-1deg); }
+  100% { transform: translate(-1px, -1px) rotate(1deg); }
+}
+
+
+
+
+/*img {*/
+/*  opacity: 1;*/
+/*  filter: alpha(opacity=40);*/
+/*}*/
+
+/*img:hover {*/
+/*  opacity: 0.5;*/
+/*  filter: alpha(opacity=100);*/
+/*}*/
 
 

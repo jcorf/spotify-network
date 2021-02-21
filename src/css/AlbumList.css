@@ -5,6 +5,12 @@
 
 .text {
   color: #eeeeee;
+    text-align: center;
+    margin: 1em;
+}
+
+.text {
+    color: #eeeeee;
 }
 
 
@@ -18,9 +24,20 @@
   border-radius: 50%;
   overflow: hidden;
   border: #305A4D;
+  margin-top: 5px;
+  margin-left: 5px;
+  margin-right: 5px;
+  padding: 5px;
 }
 
-.square {
+.circle {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    overflow: hidden;
+    border: #305A4D;
 
 }
+
+
 
