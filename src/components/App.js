@@ -26,6 +26,7 @@ class App extends React.Component {
       starting_artist: "",
       count: 0,
       no_data: false,
+      shared_images : [],
       connections: []
     };
 
@@ -64,17 +65,20 @@ class App extends React.Component {
 
   changeArtist(artistId) {
     this.setState({
-      albums: [{artists: [{name: ""}, {id: ""}]}, {name: ""}, {id: ""}],
-      tracks: [{artists: [{name: ""}, {id: ""}, {images:[{url:""}]}]}, {name: ""}],
+      albums: [{artists: [{name: ""}, {id: ""}]}, {name: ""}, {id: ""}, {images : [{url : ""}]}],
+      tracks: [{artists: [{name: ""}, {id: ""}]},
+        {name: ""}],
+
       all_songs: [],
       all_artists: [],
       all_ids: [],
       count: this.state.count + 1,
+      shared_images: [],
     })
     this.getAlbums(this.state.token, artistId)
   }
 
-  getTracksOfAlbum(token, albumId) {
+  getTracksOfAlbum(token, albumId, sharedUrl) {
     $.ajax({
       url: "https://api.spotify.com/v1/albums/" + albumId + "/tracks",
       type: "GET",
@@ -97,6 +101,8 @@ class App extends React.Component {
         this.state.tracks.map((track) => {
               track.artists.map((artist) => {
                     if (!this.state.all_ids.includes(artist.id)) {
+                      const value = [artist.id, sharedUrl]
+                      this.setState({shared_images : this.state.shared_images.concat(value)})
                       this.setState(
                           {all_artists: this.state.all_artists.concat(artist)})
                       this.setState({all_ids: this.state.all_ids.concat(artist.id)});
@@ -134,7 +140,7 @@ class App extends React.Component {
         })
 
         this.state.albums.map((album) =>
-            this.getTracksOfAlbum(token, album.id)
+            this.getTracksOfAlbum(token, album.id, album.images[0].url)
         )
 
         if (this.state.count == 0) {
@@ -143,7 +149,6 @@ class App extends React.Component {
           this.setState({connections : this.state.connections.concat(this.state.albums[0].artists[0].name)})
         }
       }
-
     });
   }
 
@@ -202,7 +207,8 @@ class App extends React.Component {
                       {this.state.all_artists.map((artist) => (
                           <Col xs="3">
                             <div>
-                              <img variant="top" className={"circle"} src={logo} />
+                              <img variant="top" className={"circle"}
+                                   src={this.state.shared_images[this.state.shared_images.indexOf(artist.id) + 1]} />
                               <h3 className={"text"}>   <button key={artist.id} onClick={() => this.changeArtist(artist.id)} hover={artist.id}>{artist.name} </button> </h3>
                             </div>
                           </Col>
