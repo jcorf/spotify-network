@@ -1,28 +1,35 @@
 import React from "react";
+import "../css/AlbumList.css";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Container from 'react-bootstrap/Container'
+import Col from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Row';
+import logo from '../logo.svg';
 
-const changeArtist = (artist) => this.a
 
 
 const AlbumList = props => {
   return(
-      <div className="App">
-        <div className="main-wrapper">
+      <div>
 
-          <h1>Artist: {props.albums[0].artists[0].name}</h1>
-          <table className="table">
-            <tbody>
-            {
-              props.artists.map((artist) =>
-                  <tr key={artist.name}>
-                    <td>{artist.name}</td>
-                  </tr>
-              )
-            }
-            </tbody>
-          </table>
-
-        </div>
+        {/*DELETING THIS FILE RUINS THE WRAPPING WIHTOUT BE CALLED CODE IS WEIRD ?!!!*/}
+        {/*<div>*/}
+        {/*  <h1 className={"heading"}>Artist: {props.albums[0].artists[0].name}</h1>*/}
+        {/*</div>*/}
+        {/*<Container fluid true>*/}
+        {/*  <Row className={"row"}>*/}
+        {/*    {props.artists.map((artist) => (*/}
+        {/*        <Col xs="3">*/}
+        {/*          <div>*/}
+        {/*            <img variant="top" className={"circle"} src={logo} />*/}
+        {/*            <h3 className={"text"}>{artist.name}</h3>*/}
+        {/*          </div>*/}
+        {/*        </Col>*/}
+        {/*    ))}*/}
+        {/*  </Row>*/}
+        {/*</Container>*/}
       </div>
+
   );
 }
 
