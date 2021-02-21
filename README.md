@@ -1,5 +1,7 @@
 # spotify-discovery-network
 
+https://jcorf.github.io/spotify-network/
+
 Created At HackBeanpot 2021 
 By Julie Corfman, Kayla Wang, & Shreyam Taneja
 
