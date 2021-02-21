@@ -164,7 +164,7 @@ class App extends React.Component {
   getAlbums(token, artistId) {
     $.ajax({
       url: "https://api.spotify.com/v1/artists/" + artistId + "/albums/?"
-          + "offset=0&limit=50&include_groups=album,single,&market=US",
+          + "offset=0&limit=50&include_groups=album,single&market=US",
       type: "GET",
       beforeSend: xhr => {
         xhr.setRequestHeader("Authorization", "Bearer " + token);
@@ -229,15 +229,20 @@ class App extends React.Component {
                 </div>
             )}
 
+            {this.state.count == 0 && this.state.all_ids.length >= 1 && (
+                <h1 className={"heading"}>You recently played: {this.state.albums[0].artists[0].name}</h1>
+            )}
+
             {this.state.token && !this.state.no_data && (
 
                 <div>
                   <div>
                     <div>
-                    <h1 className={"heading"}>Artist: {this.state.albums[0].artists[0].name}</h1>
+
+                      {this.state.count >= 1 && this.state.albums.length > 0 && (
+                          <h1 className={"heading"}>Artist: {this.state.albums[0].artists[0].name}</h1>
+                      )}
                       <h3>{this.state.count} connections away from {this.state.starting_artist}</h3>
-
-
 
 
                       <h4 className={"connection"}>  {
@@ -270,7 +275,7 @@ class App extends React.Component {
                     </div>
                   </div>
                 )}
-            {this.state.all_artists.length == 0 && !this.state.albums.length > 0 && (
+            {this.state.all_ids.length == 1 && this.state.albums.length > 0 && (
                 <h3> This artist hasn't collaborated with anyone :( </h3>
             )}
 
