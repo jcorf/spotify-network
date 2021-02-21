@@ -179,6 +179,8 @@ class App extends React.Component {
           return;
         }
 
+        this.setState({mount : 1})
+
         this.setState({
           albums: data.items,
           artist_Id: artistId,
@@ -201,10 +203,15 @@ class App extends React.Component {
           this.setState({connections : this.state.connections.concat(this.state.albums[0].artists[0].name)})
         }
 
-        this.setState({mount : 1})
       }
     });
   }
+
+  // checkEmpty() {
+  //   if (this.state.all_artists.length == 0) {
+  //
+  //   }
+  //}
 
 
   render() {
@@ -241,6 +248,7 @@ class App extends React.Component {
                     </div>
                   <Container fluid true>
                     <Row className={"row"}>
+
                       {this.state.all_artists.map((artist) => (
                           <Col xs="3">
                             <div>
@@ -254,9 +262,6 @@ class App extends React.Component {
 
                               <img variant="top" className={"circle"}
                                    src={this.state.shared_images[this.state.shared_images.indexOf(artist.id) + 1]} />
-
-
-
                               <h3 className={"text"}>   <button className={"button1"} key={artist.id} onClick={() => this.changeArtist(artist.id)} hover={artist.id}>{artist.name} </button>
                               </h3>
 
