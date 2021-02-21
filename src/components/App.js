@@ -48,10 +48,8 @@ class App extends React.Component {
       this.setState({
         token: _token, mount : 0});
     }
-
-    this.getUserRecentlyPlayed(_token);
     }
-    //this.getAlbums(this.state.token, this.state.recent_track_id);
+    //this.getAlbums(this.state.token, this.state.recent_artist_id);
 
 
     // this.getUserRecentlyPlayed(this.state.token)
@@ -60,16 +58,16 @@ class App extends React.Component {
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (this.state.mount == 0) {
       this.getUserRecentlyPlayed(this.state.token)
-      this.getAlbums(this.state.token, this.state.recent_track_id)
+      this.getAlbums(this.state.token, this.state.recent_artist_id)
     }
     //this.getUserRecentlyPlayed(this.state.token)
-    //this.getAlbums(this.state.token, this.state.recent_track_id);
+    //this.getAlbums(this.state.token, this.state.recent_artist_id);
   }
 
   // componentDidUpdate() {
   //   if (this.state.mount < 1) {
   //     this.getUserRecentlyPlayed(this.state.token)
-  //     this.getAlbums(this.state.token, this.state.recent_track_id);
+  //     this.getAlbums(this.state.token, this.state.recent_artist_id);
   //     this.setState(this.setState({mount: 1}));
   //     // }
   //   }
@@ -106,8 +104,6 @@ class App extends React.Component {
         this.setState({ recent_artist_id: data.items[0].track.artists[0].id, no_data: false });
       }
     })
-    console.log("state value is " + this.state.recent_artist_id);
-    this.getAlbums(token, this.state.recent_artist_id);
   }
 
 
@@ -126,7 +122,7 @@ class App extends React.Component {
     this.getAlbums(this.state.token, artistId)
   }
 
-  getTracksOfAlbum(token, albumId, sharedUrl, albumName) {
+  getTracksOfAlbum(token, albumId, sharedUrl) {
     $.ajax({
       url: "https://api.spotify.com/v1/albums/" + albumId + "/tracks",
       type: "GET",
@@ -149,8 +145,9 @@ class App extends React.Component {
         this.state.tracks.map((track) => {
               track.artists.map((artist) => {
                     if (!this.state.all_ids.includes(artist.id)) {
-                      const value = [artist.id, sharedUrl, albumName, track.name]
+                      const value = [artist.id, sharedUrl, track.name, track.external_urls.spotify]
                       this.setState({shared_images : this.state.shared_images.concat(value)})
+
                       this.setState(
                           {all_artists: this.state.all_artists.concat(artist)})
                       this.setState({all_ids: this.state.all_ids.concat(artist.id)});
@@ -165,7 +162,6 @@ class App extends React.Component {
 
 
   getAlbums(token, artistId) {
-    console.log("artistId = " + artistId);
     $.ajax({
       url: "https://api.spotify.com/v1/artists/" + artistId + "/albums/?"
           + "offset=0&limit=50&include_groups=album,single,&market=US",
@@ -209,13 +205,6 @@ class App extends React.Component {
     });
   }
 
-  // checkEmpty() {
-  //   if (this.state.all_artists.length == 0) {
-  //
-  //   }
-  //}
-
-
   render() {
     return (
 
@@ -223,24 +212,34 @@ class App extends React.Component {
           <header className="App-header">
             {!this.state.token && (
                 <div className={"homepage"}>
-                  <h1 className={"header"}>Spotify Network</h1>
+                  <h1 className={"header"}>Spotify Discovery Network</h1>
                   <a
                       href={`${authEndpoint}?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scopes.join(
                           "%20"
                       )}&response_type=token&show_dialog=true`}
-                  ><button className="button">Login to Spotify</button>{}
+                  ><button className="button">Login to Spotify</button>
                   </a>
+                  <h6 className={"made"}> See the network of artists from a recently played Artist by you! <br></br> Look for new music or Challenge yourself to find another artist in minimal connections.</h6>
                   <h6 className={"made"}> Made at HackBeanpot 2021 using Spotify API</h6>
-                </div>
 
+
+
+
+
+                </div>
             )}
 
             {this.state.token && !this.state.no_data && (
+
                 <div>
                   <div>
                     <div>
-                    <h1 className={"heading"}>Your Recently Played Artist: {this.state.albums[0].artists[0].name}</h1>
+                    <h1 className={"heading"}>Artist: {this.state.albums[0].artists[0].name}</h1>
                       <h3>{this.state.count} connections away from {this.state.starting_artist}</h3>
+
+
+
+
                       <h4 className={"connection"}>  {
                         this.state.connections.map((name) =>
                             name + " > "
@@ -254,26 +253,27 @@ class App extends React.Component {
                             <Col xs="3">
                               <div>
 
-                                <img variant="top" className={"circle"}
-                                     src={this.state.shared_images[this.state.shared_images.indexOf(artist.id) + 1]} />
+                            <a target="_blank" href={this.state.shared_images[this.state.shared_images.indexOf(artist.id) + 3]}>
+                              <img variant="top" className={"circle"}
+                                   src={this.state.shared_images[this.state.shared_images.indexOf(artist.id) + 1]} /></a>
+                              <h3 className={"text"}>   <button className={"button"} key={artist.id} onClick={() => this.changeArtist(artist.id)} hover={artist.id}>{artist.name} </button>
+                              </h3>
 
-                                <h3 className={"text"}>   <button className={"buttonOne"} key={artist.id} onClick={() => this.changeArtist(artist.id)} hover={artist.id}>{artist.name} </button>
-                                </h3>
-
-                                <p className={"title"}>
-                                    <b>Song Title:</b> {this.state.shared_images[this.state.shared_images.indexOf(artist.id) + 3]}
-                                    <br></br>
-                                    <b>Album:</b> {this.state.shared_images[this.state.shared_images.indexOf(artist.id) + 2]}
-                                </p>
-
-                              </div>
-                            </Col>
-                        ))}
-                      </Row>
-                    </Container>
+                              <p className={"text"}>
+                                  <i> {this.state.shared_images[this.state.shared_images.indexOf(artist.id) + 2]} </i>
+                              </p>
+                            </div>
+                          </Col>
+                      ))}
+                        </Row>
+                      </Container>
+                    </div>
                   </div>
-                </div>
+                )}
+            {this.state.all_artists.length == 0 && !this.state.albums.length > 0 && (
+                <h3> This artist hasn't collaborated with anyone :( </h3>
             )}
+
           </header>
         </div>
     );

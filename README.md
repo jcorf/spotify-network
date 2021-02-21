@@ -1,3 +1,13 @@
+# spotify-discovery-network
+
+Created At HackBeanpot 2021 
+By Julie Corfman, Kayla Wang, & Shreyam Taneja
+
+See the network of artists from a recently played Artist by you!
+Look for new music or Challenge yourself to find another artist in minimal connections.
+
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
@@ -68,4 +78,4 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
-# spotify-network
+

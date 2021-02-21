@@ -13,6 +13,8 @@ const AlbumList = props => {
       <div>
 
         {/*DELETING THIS FILE RUINS THE WRAPPING WIHTOUT BE CALLED CODE IS WEIRD ?!!!*/}
+
+
         {/*<div>*/}
         {/*  <h1 className={"heading"}>Artist: {props.albums[0].artists[0].name}</h1>*/}
         {/*</div>*/}
