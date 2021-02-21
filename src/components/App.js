@@ -104,7 +104,6 @@ class App extends React.Component {
         this.setState({ recent_artist_id: data.items[0].track.artists[0].id, no_data: false });
       }
     })
-    console.log("state value is " + this.state.recent_artist_id);
   }
 
 
@@ -146,7 +145,7 @@ class App extends React.Component {
         this.state.tracks.map((track) => {
               track.artists.map((artist) => {
                     if (!this.state.all_ids.includes(artist.id)) {
-                      const value = [artist.id, sharedUrl, albumName, track.name]
+                      const value = [artist.id, sharedUrl, albumName, track.name, track.external_urls.spotify]
                       this.setState({shared_images : this.state.shared_images.concat(value)})
                       this.setState(
                           {all_artists: this.state.all_artists.concat(artist)})
@@ -162,7 +161,6 @@ class App extends React.Component {
 
 
   getAlbums(token, artistId) {
-    console.log("artistId = " + artistId);
     $.ajax({
       url: "https://api.spotify.com/v1/artists/" + artistId + "/albums/?"
            + "offset=0&limit=50&include_groups=album,single,&market=US",
@@ -193,8 +191,7 @@ class App extends React.Component {
           } else {
             this.getTracksOfAlbum(token, album.id, logo, album.name)
           }
-        }
-        )
+        })
 
         if (this.state.count == 0) {
           this.setState({starting_artist : this.state.albums[0].artists[0].name})
@@ -258,9 +255,9 @@ class App extends React.Component {
                               {/*      <div className="text">Hello World</div>*/}
                               {/*    </div>*/}
                               {/*  </div>*/}
-
+                            <a href={this.state.shared_images[this.state.shared_images.indexOf(artist.id) + 4]}>
                               <img variant="top" className={"circle"}
-                                   src={this.state.shared_images[this.state.shared_images.indexOf(artist.id) + 1]} />
+                                   src={this.state.shared_images[this.state.shared_images.indexOf(artist.id) + 1]} /></a>
                               <h3 className={"text"}>   <button className={"button1"} key={artist.id} onClick={() => this.changeArtist(artist.id)} hover={artist.id}>{artist.name} </button>
                               </h3>
 
