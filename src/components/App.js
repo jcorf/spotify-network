@@ -48,10 +48,8 @@ class App extends React.Component {
       this.setState({
         token: _token, mount : 0});
     }
-
-    this.getUserRecentlyPlayed(_token);
     }
-    //this.getAlbums(this.state.token, this.state.recent_track_id);
+    //this.getAlbums(this.state.token, this.state.recent_artist_id);
 
 
     // this.getUserRecentlyPlayed(this.state.token)
@@ -60,16 +58,16 @@ class App extends React.Component {
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (this.state.mount == 0) {
       this.getUserRecentlyPlayed(this.state.token)
-      this.getAlbums(this.state.token, this.state.recent_track_id)
+      this.getAlbums(this.state.token, this.state.recent_artist_id)
     }
     //this.getUserRecentlyPlayed(this.state.token)
-    //this.getAlbums(this.state.token, this.state.recent_track_id);
+    //this.getAlbums(this.state.token, this.state.recent_artist_id);
   }
 
   // componentDidUpdate() {
   //   if (this.state.mount < 1) {
   //     this.getUserRecentlyPlayed(this.state.token)
-  //     this.getAlbums(this.state.token, this.state.recent_track_id);
+  //     this.getAlbums(this.state.token, this.state.recent_artist_id);
   //     this.setState(this.setState({mount: 1}));
   //     // }
   //   }
@@ -107,7 +105,6 @@ class App extends React.Component {
       }
     })
     console.log("state value is " + this.state.recent_artist_id);
-    this.getAlbums(token, this.state.recent_artist_id);
   }
 
 
