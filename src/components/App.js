@@ -22,7 +22,7 @@ class App extends React.Component {
       all_songs: [],
       all_artists: [],
       all_ids: [],
-      recent_track_id: "", 
+      recent_artist_id: "", 
       temp: "",
       starting_artist: "",
       count: 0,
@@ -31,6 +31,7 @@ class App extends React.Component {
       connections: []
     };
 
+    this.getUserRecentlyPlayed = this.getUserRecentlyPlayed.bind(this);
     this.getAlbums = this.getAlbums.bind(this);
     this.tick = this.tick.bind(this);
   }
@@ -45,7 +46,7 @@ class App extends React.Component {
         token: _token
       });
       this.getUserRecentlyPlayed(_token);
-      this.getAlbums(_token, "6eUKZXaKkcviH0Ku9w2n3V");
+      console.log("from component" + this.state.recent_artist_id);
       //this.changeArtist();
 
     }
@@ -66,24 +67,27 @@ class App extends React.Component {
   }
 
 
+  //Display the recently played track, get the track's artist and the artist ID, add another variable for artist ID and use that in function call of getAlbums in componentDidMount
   getUserRecentlyPlayed(token) {
     $.ajax({
       url: "https://api.spotify.com/v1/me/player/recently-played" + "?limit=1",
       type: "GET",
+      dataType: "json",
       beforeSend: xhr => {
         xhr.setRequestHeader("Authorization", "Bearer " + token);
       },
       success: data => {
-
         if (!data) {
           this.setState({
             no_data: true,
           });
           return;
         }
-        this.setState({ recent_track_id: data.items[0].track.id, no_data: false });
+        this.setState({ recent_artist_id: data.items[0].track.artists[0].id, no_data: false });
       }
     })
+    console.log("state value is " + this.state.recent_artist_id);
+    this.getAlbums(token, this.state.recent_artist_id);
   }
 
   changeArtist(artistId) {
@@ -140,6 +144,7 @@ class App extends React.Component {
 
 
   getAlbums(token, artistId) {
+    console.log("artistId = " + artistId);
     $.ajax({
       url: "https://api.spotify.com/v1/artists/" + artistId + "/albums/?",
           // + "offset=0&limit=20&include_groups=album,single,appears_on&market=ES",
