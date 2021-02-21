@@ -145,7 +145,7 @@ class App extends React.Component {
         this.state.tracks.map((track) => {
               track.artists.map((artist) => {
                     if (!this.state.all_ids.includes(artist.id)) {
-                      const value = [artist.id, sharedUrl, albumName, track.name, track.external_urls.spotify]
+                      const value = [artist.id, sharedUrl, track.name, track.external_urls.spotify]
                       this.setState({shared_images : this.state.shared_images.concat(value)})
 
                       this.setState(
@@ -204,21 +204,6 @@ class App extends React.Component {
     });
   }
 
-  // checkEmpty() {
-  //   if (this.state.all_artists.length == 0) {
-  //     <h3> This artist hasn't collaborated with anyone :( </h3>
-  //   }
-  // }
-  //
-  // checkFirstArtist() {
-  //   if (this.state.connections.length == 0) {
-  //     <h1 className={"heading"}>Your Recently Played Artist: {this.state.albums[0].artists[0].name}</h1>
-  //   } else {
-  //     <h1 className={"heading"}>Artist: {this.state.albums[0].artists[0].name}</h1>
-  //   }
-  // }
-
-
   render() {
     return (
 
@@ -226,15 +211,17 @@ class App extends React.Component {
           <header className="App-header">
             {!this.state.token && (
                 <div className={"homepage"}>
-                  <h1 className={"header"}>Spotify Network</h1>
+                  <h1 className={"header"}>Spotify Discovery Network</h1>
                   <a
                       href={`${authEndpoint}?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scopes.join(
                           "%20"
                       )}&response_type=token&show_dialog=true`}
-                  ><button className="button">Login to Spotify</button>{}
+                  ><button className="button">Login to Spotify</button>
                   </a>
-                  <h6 className={"made"}> See the network of artists from a recently played Artist by you! <br></br> Look for new music or Challenge yourself to find another artist in minimal connections. </h6>
+                  <h6 className={"made"}> See the network of artists from a recently played Artist by you! <br></br> Look for new music or Challenge yourself to find another artist in minimal connections.</h6>
                   <h6 className={"made"}> Made at HackBeanpot 2021 using Spotify API</h6>
+
+
 
 
 
@@ -248,6 +235,8 @@ class App extends React.Component {
                     <div>
                     <h1 className={"heading"}>Artist: {this.state.albums[0].artists[0].name}</h1>
                       <h3>{this.state.count} connections away from {this.state.starting_artist}</h3>
+
+
 
 
                       <h4 className={"connection"}>  {
@@ -270,7 +259,7 @@ class App extends React.Component {
                               {/*      <div className="text">Hello World</div>*/}
                               {/*    </div>*/}
                               {/*  </div>*/}
-                            <a href={this.state.shared_images[this.state.shared_images.indexOf(artist.id) + 4]}>
+                            <a target="_blank" href={this.state.shared_images[this.state.shared_images.indexOf(artist.id) + 3]}>
                               <img variant="top" className={"circle"}
                                    src={this.state.shared_images[this.state.shared_images.indexOf(artist.id) + 1]} /></a>
                               <h3 className={"text"}>   <button className={"button1"} key={artist.id} onClick={() => this.changeArtist(artist.id)} hover={artist.id}>{artist.name} </button>
@@ -293,6 +282,12 @@ class App extends React.Component {
                   </div>
                 </div>
             )}
+
+
+            {this.state.all_artists.length == 0 && !this.state.albums.length > 0 && (
+                <h3> This artist hasn't collaborated with anyone :( </h3>
+            )}
+
           </header>
         </div>
     );
