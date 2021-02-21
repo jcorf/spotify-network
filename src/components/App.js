@@ -17,6 +17,7 @@ class App extends React.Component {
       all_songs: [],
       all_artists: [],
       all_ids: [],
+      recent_track_id: "", 
       no_data: false,
     };
 
@@ -33,6 +34,7 @@ class App extends React.Component {
       this.setState({
         token: _token
       });
+      this.getUserRecentlyPlayed(token);
       this.getAlbums(_token, "6eUKZXaKkcviH0Ku9w2n3V");
       //this.changeArtist();
 
@@ -51,6 +53,27 @@ class App extends React.Component {
     if (this.state.token) {
       this.getAlbums(this.state.token);
     }
+  }
+
+
+  getUserRecentlyPlayed(token) {
+    $.ajax({
+      url: "https://api.spotify.com/v1/me/player/recently-played" + "?limit=1",
+      type: "GET",
+      beforeSend: xhr => {
+        xhr.setRequestHeader("Authorization", "Bearer " + token);
+      },
+      success: data => {
+
+        if (!data) {
+          this.setState({
+            no_data: true,
+          });
+          return;
+        }
+        this.setState({ recent_track_id: data.items[0].track.id, no_data: false });
+      }
+    })
   }
 
   getTracksOfAlbum(token, albumId) {
