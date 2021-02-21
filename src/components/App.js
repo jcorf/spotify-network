@@ -30,11 +30,13 @@ class App extends React.Component {
       count: 0,
       no_data: false,
       shared_images : [],
-      connections: []
+      connections: [],
+      mount : 0,
     }
 
-    this.getAlbums = this.getAlbums.bind(this);
-    this.tick = this.tick.bind(this);
+
+    //this.getAlbums = this.getAlbums.bind(this);
+    // this.tick = this.tick.bind(this);
   }
 
   componentDidMount() {
@@ -44,29 +46,43 @@ class App extends React.Component {
     if (_token) {
       // Set token
       this.setState({
-        token: _token
-      });
-      this.getUserRecentlyPlayed(_token);
-      // "5Rl15oVamLq7FbSb0NNBNy")
-      this.getAlbums(this.state.token, "6eUKZXaKkcviH0Ku9w2n3V");
-      //this.changeArtist();
-
+        token: _token, mount : 0});
+      }
     }
+    //this.getAlbums(this.state.token, this.state.recent_track_id);
 
-    // set interval for polling every 5 seconds
-    this.interval = setInterval(() => this.tick(), 5000);
-  }
 
-  componentWillUnmount() {
-    // clear the interval to save resources
-    clearInterval(this.interval);
-  }
+    // this.getUserRecentlyPlayed(this.state.token)
+    // // // "5Rl15oVamLq7FbSb0NNBNy")
 
-  tick() {
-    if (this.state.token) {
-      this.getAlbums(this.state.token);
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (this.state.mount == 0) {
+      this.getUserRecentlyPlayed(this.state.token)
+      this.getAlbums(this.state.token, this.state.recent_track_id)
     }
+    //this.getUserRecentlyPlayed(this.state.token)
+    //this.getAlbums(this.state.token, this.state.recent_track_id);
   }
+
+  // componentDidUpdate() {
+  //   if (this.state.mount < 1) {
+  //     this.getUserRecentlyPlayed(this.state.token)
+  //     this.getAlbums(this.state.token, this.state.recent_track_id);
+  //     this.setState(this.setState({mount: 1}));
+  //     // }
+  //   }
+  // }
+
+  // componentWillUnmount() {
+  //   // clear the interval to save resources
+  //   clearInterval(this.interval);
+  // }
+  //
+  // tick() {
+  //   if (this.state.token) {
+  //     this.getAlbums(this.state.token);
+  //   }
+  // }
 
 
   getUserRecentlyPlayed(token) {
@@ -84,7 +100,11 @@ class App extends React.Component {
           });
           return;
         }
-        this.setState({ recent_track_id: data.items[0].track.id, no_data: false });
+
+
+
+
+        this.setState({ recent_track_id: data.items[0].track.artists[0].id, no_data: false });
       }
     })
   }
@@ -180,6 +200,8 @@ class App extends React.Component {
         } else {
           this.setState({connections : this.state.connections.concat(this.state.albums[0].artists[0].name)})
         }
+
+        this.setState({mount : 1})
       }
     });
   }
@@ -187,6 +209,7 @@ class App extends React.Component {
 
   render() {
     return (
+
         <div className="App">
           <header className="App-header">
             {!this.state.token && (
@@ -207,7 +230,7 @@ class App extends React.Component {
                 <div>
                   <div>
                     <div>
-                    <h1 className={"heading"}>Artist: {this.state.albums[0].artists[0].name}</h1>
+                    <h1 className={"heading"}>Your Recently Played Artist: {this.state.albums[0].artists[0].name}</h1>
                       <h3>{this.state.count} connections away from {this.state.starting_artist}</h3>
                       <h4 className={"connection"}>  {
                         this.state.connections.map((name) =>
