@@ -17,19 +17,19 @@ class App extends React.Component {
       token: null,
       artist_ID: "",
       artist_Name: "",
-      albums: [{artists: [{name: ""}]}, {name: ""}, {id: ""}],
+      albums: [{artists: [{name: ""}]}, {name: ""}, {id: ""}, {name: ""}],
       tracks: [{artists: [{name: ""},  {id: ""}]}, {name: ""}],
       all_songs: [],
       all_artists: [],
       all_ids: [],
-      recent_track_id: "", 
+      recent_track: [{artists: [{name: ""}]}, {name: ""}, {id: ""}],
       temp: "",
       starting_artist: "",
       count: 0,
       no_data: false,
       shared_images : [],
       connections: []
-    };
+    }
 
     this.getAlbums = this.getAlbums.bind(this);
     this.tick = this.tick.bind(this);
@@ -45,7 +45,8 @@ class App extends React.Component {
         token: _token
       });
       this.getUserRecentlyPlayed(_token);
-      this.getAlbums(_token, "6eUKZXaKkcviH0Ku9w2n3V");
+      // "6eUKZXaKkcviH0Ku9w2n3V")
+      this.getAlbums(_token, "5Rl15oVamLq7FbSb0NNBNy");
       //this.changeArtist();
 
     }
@@ -74,14 +75,15 @@ class App extends React.Component {
         xhr.setRequestHeader("Authorization", "Bearer " + token);
       },
       success: data => {
-
         if (!data) {
           this.setState({
             no_data: true,
           });
           return;
         }
-        this.setState({ recent_track_id: data.items[0].track.id, no_data: false });
+        this.setState({
+          recent_tracks: data.items.album,
+          no_data: false});
       }
     })
   }
@@ -101,7 +103,7 @@ class App extends React.Component {
     this.getAlbums(this.state.token, artistId)
   }
 
-  getTracksOfAlbum(token, albumId, sharedUrl) {
+  getTracksOfAlbum(token, albumId, sharedUrl, albumName) {
     $.ajax({
       url: "https://api.spotify.com/v1/albums/" + albumId + "/tracks",
       type: "GET",
@@ -124,7 +126,7 @@ class App extends React.Component {
         this.state.tracks.map((track) => {
               track.artists.map((artist) => {
                     if (!this.state.all_ids.includes(artist.id)) {
-                      const value = [artist.id, sharedUrl]
+                      const value = [artist.id, sharedUrl, albumName, track.name]
                       this.setState({shared_images : this.state.shared_images.concat(value)})
                       this.setState(
                           {all_artists: this.state.all_artists.concat(artist)})
@@ -141,8 +143,8 @@ class App extends React.Component {
 
   getAlbums(token, artistId) {
     $.ajax({
-      url: "https://api.spotify.com/v1/artists/" + artistId + "/albums/?",
-          // + "offset=0&limit=20&include_groups=album,single,appears_on&market=ES",
+      url: "https://api.spotify.com/v1/artists/" + artistId + "/albums/?" +
+          "offset=0&limit=50&include_groups=album,single&market=US",
       type: "GET",
       beforeSend: xhr => {
         xhr.setRequestHeader("Authorization", "Bearer " + token);
@@ -162,8 +164,13 @@ class App extends React.Component {
           no_data: false
         })
 
-        this.state.albums.map((album) =>
-            this.getTracksOfAlbum(token, album.id, album.images[0].url)
+        this.state.albums.map((album) => {
+          if (album.images.length ) {
+            this.getTracksOfAlbum(token, album.id, album.images[0].url,album.name)
+          } else {
+            this.getTracksOfAlbum(token, album.id, logo, album.name)
+          }
+        }
         )
 
         if (this.state.count == 0) {
@@ -175,34 +182,11 @@ class App extends React.Component {
     });
   }
 
-  getArtistUrl(token, artistId) {
-    $.ajax({
-      url: `https://api.spotify.com/v1/artists/${artistId}`,
-      type: "GET",
-      beforeSend: xhr => {
-        xhr.setRequestHeader("Authorization", "Bearer " + token);
-      },
-      success: data => {
-        if (!data) {
-          this.setState({
-            no_data: true,
-          });
-          return;
-        }
-
-        this.setState({all_artists: this.state.all_artists.concat({data})});
-      }
-    });
-  }
-
-
-
 
   render() {
     return (
         <div className="App">
           <header className="App-header">
-            {/*<img src={logo} className="App-logo" alt="logo"/>*/}
             {!this.state.token && (
                 <a
                     href={`${authEndpoint}?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scopes.join(
@@ -230,9 +214,33 @@ class App extends React.Component {
                       {this.state.all_artists.map((artist) => (
                           <Col xs="3">
                             <div>
+                              {/*<div className="container">*/}
+                              {/*  <img src="img_avatar.png" alt="Avatar"*/}
+                              {/*       className="image">*/}
+                              {/*    <div className="overlay">*/}
+                              {/*      <div className="text">Hello World</div>*/}
+                              {/*    </div>*/}
+                              {/*  </div>*/}
+
                               <img variant="top" className={"circle"}
                                    src={this.state.shared_images[this.state.shared_images.indexOf(artist.id) + 1]} />
-                              <h3 className={"text"}>   <button key={artist.id} onClick={() => this.changeArtist(artist.id)} hover={artist.id}>{artist.name} </button> </h3>
+
+
+
+                              <h3 className={"text"}>   <button key={artist.id} onClick={() => this.changeArtist(artist.id)} hover={artist.id}>{artist.name} </button>
+                              </h3>
+
+                              <p>
+                                <left>
+                                  <b>Title:</b> {this.state.shared_images[this.state.shared_images.indexOf(artist.id) + 2]} <br></br>
+                                  <b>Album:</b> {this.state.shared_images[this.state.shared_images.indexOf(artist.id) + 3]}
+                                </left>
+                              </p>
+
+                              <p>
+                              </p>
+
+
                             </div>
                           </Col>
                       ))}
@@ -240,12 +248,6 @@ class App extends React.Component {
                   </Container>
                   </div>
                 </div>
-
-                // <AlbumList
-                //     albums={this.state.albums}
-                //     songs={this.state.all_songs}
-                //     artists={this.state.all_artists}
-                // />
             )}
           </header>
         </div>
