@@ -72,27 +72,6 @@
   transform: translateY(4px);
 }
 
-.button1 {
-  align-content: center;
-  padding: 15px 25px;
-  font-size: 20px;
-  text-align: center;
-  cursor: pointer;
-  outline: none;
-  color: #fff;
-  background-color: #396A5F;
-  border: none;
-  border-radius: 15px;
-  box-shadow: 0 9px #222;
-}
-
-.buttonOne:hover {background-color: #305A4D}
-
-.buttonOne:active {
-  background-color: #305A4D;
-  box-shadow: 0 5px #666;
-  transform: translateY(4px);
-}
 
 .connection {
   margin-bottom: 25px;
@@ -112,10 +91,31 @@
   padding-bottom:25px;
 }
 
-button:hover {
+.buttonOne {
+  align-content: center;
+  padding: 15px 25px;
+  font-size: 20px;
+  text-align: center;
+  cursor: pointer;
+  outline: none;
+  color: #fff;
+  background-color: #396A5F;
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 9px #222;
+}
+
+.buttonOne:active {
+  background-color: #305A4D;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
+
+buttonOne:hover {
   animation: shake 0.5s;
   animation-iteration-count: infinite;
 }
+
 
 @keyframes shake {
   0% { transform: translate(1px, 1px) rotate(0deg); }
@@ -127,6 +127,44 @@ button:hover {
   75% { transform: translate(-3px, 1px) rotate(0deg); }
   88% { transform: translate(3px, 1px) rotate(-1deg); }
   100% { transform: translate(-1px, -1px) rotate(1deg); }
+}
+
+.title {
+  text-align: center;
+  font-size: 17px;
+  padding-bottom: 20px;
+}
+
+.circle {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  overflow: hidden;
+  border: #305A4D;
+  margin-top: 5px;
+  margin-left: 5px;
+  margin-right: 5px;
+  padding: 5px;
+}
+
+.heading {
+  text-align: center;
+  margin: 1em;
+}
+
+.text {
+  color: #eeeeee;
+  text-align: center;
+  margin: 1em;
+}
+
+.text {
+  color: #eeeeee;
+}
+
+
+.spacing {
+  margin: 5px;
 }
 
 

@@ -146,7 +146,7 @@ class App extends React.Component {
   getAlbums(token, artistId) {
     $.ajax({
       url: "https://api.spotify.com/v1/artists/" + artistId + "/albums/?"
-           + "offset=0&limit=50&include_groups=album,single,&market=US",
+          + "offset=0&limit=50&include_groups=album,single,&market=US",
       type: "GET",
       beforeSend: xhr => {
         xhr.setRequestHeader("Authorization", "Bearer " + token);
@@ -167,12 +167,12 @@ class App extends React.Component {
         })
 
         this.state.albums.map((album) => {
-          if (album.images.length ) {
-            this.getTracksOfAlbum(token, album.id, album.images[0].url,album.name)
-          } else {
-            this.getTracksOfAlbum(token, album.id, logo, album.name)
-          }
-        }
+              if (album.images.length ) {
+                this.getTracksOfAlbum(token, album.id, album.images[0].url,album.name)
+              } else {
+                this.getTracksOfAlbum(token, album.id, logo, album.name)
+              }
+            }
         )
 
         if (this.state.count == 0) {
@@ -207,7 +207,7 @@ class App extends React.Component {
                 <div>
                   <div>
                     <div>
-                    <h1 className={"heading"}>Artist: {this.state.albums[0].artists[0].name}</h1>
+                      <h1 className={"heading"}>Artist: {this.state.albums[0].artists[0].name}</h1>
                       <h3>{this.state.count} connections away from {this.state.starting_artist}</h3>
                       <h4 className={"connection"}>  {
                         this.state.connections.map((name) =>
@@ -216,42 +216,29 @@ class App extends React.Component {
                       }
                       </h4>
                     </div>
-                  <Container fluid true>
-                    <Row className={"row"}>
-                      {this.state.all_artists.map((artist) => (
-                          <Col xs="3">
-                            <div>
-                              {/*<div className="container">*/}
-                              {/*  <img src="img_avatar.png" alt="Avatar"*/}
-                              {/*       className="image">*/}
-                              {/*    <div className="overlay">*/}
-                              {/*      <div className="text">Hello World</div>*/}
-                              {/*    </div>*/}
-                              {/*  </div>*/}
+                    <Container fluid true>
+                      <Row className={"row"}>
+                        {this.state.all_artists.map((artist) => (
+                            <Col xs="3">
+                              <div>
 
-                              <img variant="top" className={"circle"}
-                                   src={this.state.shared_images[this.state.shared_images.indexOf(artist.id) + 1]} />
+                                <img variant="top" className={"circle"}
+                                     src={this.state.shared_images[this.state.shared_images.indexOf(artist.id) + 1]} />
 
+                                <h3 className={"text"}>   <button className={"buttonOne"} key={artist.id} onClick={() => this.changeArtist(artist.id)} hover={artist.id}>{artist.name} </button>
+                                </h3>
 
+                                <p className={"title"}>
+                                    <b>Song Title:</b> {this.state.shared_images[this.state.shared_images.indexOf(artist.id) + 3]}
+                                    <br></br>
+                                    <b>Album:</b> {this.state.shared_images[this.state.shared_images.indexOf(artist.id) + 2]}
+                                </p>
 
-                              <h3 className={"text"}>   <button className={"button1"} key={artist.id} onClick={() => this.changeArtist(artist.id)} hover={artist.id}>{artist.name} </button>
-                              </h3>
-
-                              <p>
-                                <left>
-                                  <b>Title:</b> {this.state.shared_images[this.state.shared_images.indexOf(artist.id) + 3]} <br></br>
-                                  <b>Album:</b> {this.state.shared_images[this.state.shared_images.indexOf(artist.id) + 2]}
-                                </left>
-                              </p>
-
-                              <p>
-                              </p>
-
-                            </div>
-                          </Col>
-                      ))}
-                    </Row>
-                  </Container>
+                              </div>
+                            </Col>
+                        ))}
+                      </Row>
+                    </Container>
                   </div>
                 </div>
             )}
