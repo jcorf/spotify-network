@@ -24,7 +24,7 @@ class App extends React.Component {
       all_songs: [],
       all_artists: [],
       all_ids: [],
-      recent_track: [{artists: [{name: ""}]}, {name: ""}, {id: ""}],
+      recent_track_id: "",
       temp: "",
       starting_artist: "",
       count: 0,
@@ -48,7 +48,7 @@ class App extends React.Component {
       });
       this.getUserRecentlyPlayed(_token);
       // "5Rl15oVamLq7FbSb0NNBNy")
-      this.getAlbums(_token, "6eUKZXaKkcviH0Ku9w2n3V");
+      this.getAlbums(this.state.token, "6eUKZXaKkcviH0Ku9w2n3V");
       //this.changeArtist();
 
     }
@@ -77,18 +77,18 @@ class App extends React.Component {
         xhr.setRequestHeader("Authorization", "Bearer " + token);
       },
       success: data => {
+
         if (!data) {
           this.setState({
             no_data: true,
           });
           return;
         }
-        this.setState({
-          recent_tracks: data.items.album,
-          no_data: false});
+        this.setState({ recent_track_id: data.items[0].track.id, no_data: false });
       }
     })
   }
+
 
   changeArtist(artistId) {
     this.setState({
@@ -239,8 +239,8 @@ class App extends React.Component {
 
                               <p>
                                 <left>
-                                  <b>Title:</b> {this.state.shared_images[this.state.shared_images.indexOf(artist.id) + 2]} <br></br>
-                                  <b>Album:</b> {this.state.shared_images[this.state.shared_images.indexOf(artist.id) + 3]}
+                                  <b>Title:</b> {this.state.shared_images[this.state.shared_images.indexOf(artist.id) + 3]} <br></br>
+                                  <b>Album:</b> {this.state.shared_images[this.state.shared_images.indexOf(artist.id) + 2]}
                                 </left>
                               </p>
 
