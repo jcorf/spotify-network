@@ -7,6 +7,8 @@ import logo from '../logo.svg';
 import Row from "react-bootstrap/Row";
 import Container from "react-bootstrap/Container";
 import Col from "react-bootstrap/Col";
+import bkj from "../background.jpg";
+import bkp from "../background.png";
 import AlbumList from "./AlbumList";
 
 class App extends React.Component {
@@ -45,8 +47,8 @@ class App extends React.Component {
         token: _token
       });
       this.getUserRecentlyPlayed(_token);
-      // "6eUKZXaKkcviH0Ku9w2n3V")
-      this.getAlbums(_token, "5Rl15oVamLq7FbSb0NNBNy");
+      // "5Rl15oVamLq7FbSb0NNBNy")
+      this.getAlbums(_token, "6eUKZXaKkcviH0Ku9w2n3V");
       //this.changeArtist();
 
     }
@@ -143,8 +145,8 @@ class App extends React.Component {
 
   getAlbums(token, artistId) {
     $.ajax({
-      url: "https://api.spotify.com/v1/artists/" + artistId + "/albums/?" +
-          "offset=0&limit=50&include_groups=album,single&market=US",
+      url: "https://api.spotify.com/v1/artists/" + artistId + "/albums/?"
+           + "offset=0&limit=50&include_groups=album,single,&market=US",
       type: "GET",
       beforeSend: xhr => {
         xhr.setRequestHeader("Authorization", "Bearer " + token);
@@ -188,12 +190,17 @@ class App extends React.Component {
         <div className="App">
           <header className="App-header">
             {!this.state.token && (
-                <a
-                    href={`${authEndpoint}?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scopes.join(
-                        "%20"
-                    )}&response_type=token&show_dialog=true`}
-                ><button className="button">Login to Spotify</button>{}
-                </a>
+                <div className={"homepage"}>
+                  <h1 className={"header"}>Spotify Network</h1>
+                  <a
+                      href={`${authEndpoint}?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scopes.join(
+                          "%20"
+                      )}&response_type=token&show_dialog=true`}
+                  ><button className="button">Login to Spotify</button>{}
+                  </a>
+                  <h6 className={"made"}> Made at HackBeanpot 2021 using Spotify API</h6>
+                </div>
+
             )}
 
             {this.state.token && !this.state.no_data && (
@@ -202,7 +209,7 @@ class App extends React.Component {
                     <div>
                     <h1 className={"heading"}>Artist: {this.state.albums[0].artists[0].name}</h1>
                       <h3>{this.state.count} connections away from {this.state.starting_artist}</h3>
-                      <h4>  {
+                      <h4 className={"connection"}>  {
                         this.state.connections.map((name) =>
                             name + " > "
                         )
@@ -227,7 +234,7 @@ class App extends React.Component {
 
 
 
-                              <h3 className={"text"}>   <button key={artist.id} onClick={() => this.changeArtist(artist.id)} hover={artist.id}>{artist.name} </button>
+                              <h3 className={"text"}>   <button className={"button1"} key={artist.id} onClick={() => this.changeArtist(artist.id)} hover={artist.id}>{artist.name} </button>
                               </h3>
 
                               <p>
@@ -239,7 +246,6 @@ class App extends React.Component {
 
                               <p>
                               </p>
-
 
                             </div>
                           </Col>
