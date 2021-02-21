@@ -1,0 +1,28 @@
+{
+  "files": {
+    "main.css": "/spotify-network/static/css/main.d9921b8f.chunk.css",
+    "main.js": "/spotify-network/static/js/main.22bd787b.chunk.js",
+    "main.js.map": "/spotify-network/static/js/main.22bd787b.chunk.js.map",
+    "runtime-main.js": "/spotify-network/static/js/runtime-main.20c9e9ab.js",
+    "runtime-main.js.map": "/spotify-network/static/js/runtime-main.20c9e9ab.js.map",
+    "static/css/2.150d169a.chunk.css": "/spotify-network/static/css/2.150d169a.chunk.css",
+    "static/js/2.08aa27ad.chunk.js": "/spotify-network/static/js/2.08aa27ad.chunk.js",
+    "static/js/2.08aa27ad.chunk.js.map": "/spotify-network/static/js/2.08aa27ad.chunk.js.map",
+    "static/js/3.c0205094.chunk.js": "/spotify-network/static/js/3.c0205094.chunk.js",
+    "static/js/3.c0205094.chunk.js.map": "/spotify-network/static/js/3.c0205094.chunk.js.map",
+    "index.html": "/spotify-network/index.html",
+    "static/css/2.150d169a.chunk.css.map": "/spotify-network/static/css/2.150d169a.chunk.css.map",
+    "static/css/main.d9921b8f.chunk.css.map": "/spotify-network/static/css/main.d9921b8f.chunk.css.map",
+    "static/js/2.08aa27ad.chunk.js.LICENSE.txt": "/spotify-network/static/js/2.08aa27ad.chunk.js.LICENSE.txt",
+    "static/media/App.css": "/spotify-network/static/media/background.99ea6a21.jpg",
+    "static/media/background.a5965ca3.png": "/spotify-network/static/media/background.a5965ca3.png",
+    "static/media/logo.6ce24c58.svg": "/spotify-network/static/media/logo.6ce24c58.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.20c9e9ab.js",
+    "static/css/2.150d169a.chunk.css",
+    "static/js/2.08aa27ad.chunk.js",
+    "static/css/main.d9921b8f.chunk.css",
+    "static/js/main.22bd787b.chunk.js"
+  ]
+}
