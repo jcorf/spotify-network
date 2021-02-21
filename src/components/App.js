@@ -112,8 +112,8 @@ class App extends React.Component {
 
   getAlbums(token, artistId) {
     $.ajax({
-      url: "https://api.spotify.com/v1/artists/" + artistId + "/albums/?"
-          + "offset=0&limit=20&include_groups=album,single,appears_on&market=ES",
+      url: "https://api.spotify.com/v1/artists/" + artistId + "/albums/?",
+          // + "offset=0&limit=20&include_groups=album,single,appears_on&market=ES",
       type: "GET",
       beforeSend: xhr => {
         xhr.setRequestHeader("Authorization", "Bearer " + token);
