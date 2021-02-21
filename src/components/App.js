@@ -44,7 +44,7 @@ class App extends React.Component {
       this.setState({
         token: _token
       });
-      this.getUserRecentlyPlayed(token);
+      this.getUserRecentlyPlayed(_token);
       this.getAlbums(_token, "6eUKZXaKkcviH0Ku9w2n3V");
       //this.changeArtist();
 
@@ -85,7 +85,7 @@ class App extends React.Component {
       }
     })
   }
-  
+
   changeArtist(artistId) {
     this.setState({
       albums: [{artists: [{name: ""}, {id: ""}]}, {name: ""}, {id: ""}, {images : [{url : ""}]}],
